@@ -12,7 +12,7 @@ lazy val myproject = (project in file("."))
   )
 
 lazy val docs = project       // new documentation project
-  .in(file("myproject-docs")) // important: it must not be docs/
+  .in(file("generated-docs")) // important: it must not be docs/
   .settings(mdocVariables := Map("VERSION" -> version.value))
   .dependsOn(myproject)
   .enablePlugins(MdocPlugin)
