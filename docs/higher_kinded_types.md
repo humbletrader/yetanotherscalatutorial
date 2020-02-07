@@ -92,7 +92,8 @@ Type | Kind | Comment
 --- | --- | ---
 String | * | this is a simple type
 List | * -> * | type constructor 
-HigherKindType | (* -> *) -> * | higher kinded type
+Map | * -> * -> * | This says: given one type, then another, produce the final type. For type A -> Map[A, _] -> Map[A, B]
+HigherKindType | (* -> *) -> * | type constructor of type constructor
 
 Usually the implementation of such higher kinded type is done with implicits
 
@@ -124,9 +125,25 @@ tupelize(List(1), List(2))
 Say we have some standard pattern for our data-structures where we want to be able to consistently apply an operation of the same shape. Functors are a nice example, the covariant functor allows us to take a box holding things of type A, and a function of A => B and get back a box holding things of type B.
 In Java, there is no way to specify that these things share a common interface, or that we simply want transformable boxes. We need to either make this static eg. Guava’s Lists and Iterables, or bespoke on the interface, eg: fugue’s Option or atlassian-util-concurrent’s Promise. There is simply no way to unify these methods on either some super interface or to specify that you have – or require – a “mappable/transformable” box.
 
-## Can we define the same HKT with normal types
-Yes we can, but is far less descriptive and there are some 
+## Can we define the same functionality with normal subtyping ?
+Yes we can, but is far less descriptive 
+
+```scala mdoc 
+trait Reducible[A, F[A]]{
+    def reduce(fa: F[A])(f: (A,A) => A) : A
+}
+
+object Reducible{
+    implicit def seqReducible[T] = new Reducible[T, Seq]{
+        def reduce(seq: Seq[T])(f: (T,T) => T) : T = 
+            seq reduce f 
+    }
+}
+
+
+``` 
 
 ## Links
-[Scala: types of a higher kind](https://www.atlassian.com/blog/archives/scala-types-of-a-higher-kind)
-[Kinds of types in Scala, part 2](https://kubuszok.com/2018/kinds-of-types-in-scala-part-2/)
+[Attlasian: Scala: types of a higher kind](https://www.atlassian.com/blog/archives/scala-types-of-a-higher-kind)
+[Kubuszok: Kinds of types in Scala, part 2](https://kubuszok.com/2018/kinds-of-types-in-scala-part-2/)
+[Twitter Scala Tutorial: Higher kinded types & ad hoc polymorphism](https://twitter.github.io/scala_school/advanced-types.html#higher)
