@@ -7,11 +7,12 @@ http://docs.scala-lang.org/resources/images/collections.png
            ^
            |
          Iterable    ( iterator() over the elements, hasNext, next )
+     ^      ^      ^
      |      |      |
     Seq    Set     Map
 
- * Seq ( an ordered sequence of elements )
- * Set ( a set of un-ordered elements )
+ * Seq ( an ordered sequence of elements)
+ * Set ( a set of un-ordered elements)
  * Map ( a map of key-value pairs)
 
 ## Traversable (deprecated in scala 2.13)
@@ -41,14 +42,19 @@ traversable ++ Traversable(6, 7, 8, 9)
 traversable.++:(Traversable(6, 7, 8, 9))  
 
 traversable.reduceLeft((acc, elem) => acc + elem)   
-traversable.foldLeft(10)((acc, elem) => acc + elem) //the same as reduce but starting with 10
-traversable./:(10)((acc, elem) => acc + elem)       //shortcut for fold left
 
-// create a list of intermediary results (steps)
+//the same as reduce but starting with 10
+traversable.foldLeft(10)((acc, elem) => acc + elem) 
+
+//shortcut for fold left
+traversable./:(10)((acc, elem) => acc + elem)       
+
+//create a list of intermediary results (steps)
 traversable.scanLeft(10)((acc, elem) => acc + elem)  
 
 Traversable(Traversable(1,2), Traversable(3, 4, 5)).flatten
 ```
+
 ### important sub-traits 
  Iterable
 
@@ -60,21 +66,17 @@ Iterable is a factory of Iterators
 
 List is the default implementation returned by Iterable.apply
 ```scala mdoc 
-val iterableSample = Iterable(1, 2, 3, 4, 5, 6, 7)         
+val iterableTest = Iterable(1, 2, 3, 4, 5, 6, 7)         
 ```
 
 the most important method in the iterable trait
 ```scala mdoc
-val iterator = iterableSample.iterator
-
-//which allows you        
-iterator.hasNext
-iterator.next()
+val iterator = iterableTest.iterator
 ```
 
 Grouping
 ```scala mdoc
-val groupsOfThree = iterableSample.grouped(3)   //returns an iterator
+val groupsOfThree = iterableTest.grouped(3)   //returns an iterator
 groupsOfThree.next() 
 groupsOfThree.next() 
 groupsOfThree.next() 
@@ -83,7 +85,7 @@ groupsOfThree.hasNext
 
 Sliding windows
 ```scala mdoc
-val slidingWindowOfThree = iterableSample.sliding(3) 
+val slidingWindowOfThree = iterableTest.sliding(3) 
 slidingWindowOfThree.next() 
 slidingWindowOfThree.next() 
 ```
@@ -92,15 +94,15 @@ Zipping
 zipping is the equivalent of joining two sets by their element's index
 ```scala mdoc
 val anotherIterable = Iterable('a', 'b', 'c', 'd')
-anotherIterable.zip(iterableSample) 
+anotherIterable.zip(iterableTest) 
 anotherIterable.zipWithIndex  
 ```
 
 ### important sub-traits
-TODO
+Seq, Set, Map
 
 ### important concrete implementations
-TODO
+see below
 
 ## Sequences
 A Sequence is an iterable with positions for each element and fixed length
@@ -138,9 +140,9 @@ List, Stream : implementations for LinearSeq
 Array, ArrayBuffer, Vector: implementation for IndexedSeq
 
 Seq implements PartialFunction[Int, A] so you can easily write
-```scala mdoc
+```scala mdoc:crash
 sequence(3) 
-//sequence(100) //IndexOutOfBounds
+sequence(100)
 ```
 
 ## Sets
@@ -164,7 +166,7 @@ myPets + ("bear", "deer") //adding the elements of a tuple
 SortedSet
 
 ### important implementations: 
-HashSet, BitSet, TreeSet
+HashSet, BitSet, TreeSet (via SortedSet)
 
 
 ## Maps
@@ -179,12 +181,16 @@ val sampleMap2 = Map( (1, "one"), (2, "two"), (3, "three"))
 ```scala mdoc
 //ugly way of filtering/mapping a map
 sampleMap.filter( pair => pair._1 < 3) 
+
 //nicer way of doing the same thing
 sampleMap.filter({case (int, str) => int < 3})
+
 //even more simple without the parenthesis 
 sampleMap.filter {case (int, str) => int < 3}
+```
 
-//get returns an Option 
+Map.get returns an Option
+```scala mdoc 
 sampleMap.get(1) 
 sampleMap.get(1).get
 sampleMap.get(5)    //returns None
@@ -192,17 +198,21 @@ sampleMap.get(3) match {
   case Some(n) => println(s"consuming $n")
   case None => println(" the number does not exist in the map")
 }
+```
 
-//apply does not return an option but the exact element or NoSuchElementException
+apply does not return an option but the exact element or NoSuchElementException
+```scala mdoc:crash
 sampleMap(1)
-//sampleMap(5)//throws NoSuchElementException
+sampleMap(5)
+```
 
-//iterating over keys and values
+iterating over keys and values
+```scala mdoc
 for ((key, value) <- sampleMap) println(s"key=$key, value=$value")
 ```
 
 ### important sub-traits
-todo
+SortedMap
 
 ### important concrete implementations: 
-HashMap, IntMap
+HashMap, IntMap, TreeMap (via SortedMap)
