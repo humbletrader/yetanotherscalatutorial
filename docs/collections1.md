@@ -1,15 +1,7 @@
 # COLLECTIONS - PART 1 (TRAITS)
 
 ## collection hierarchy
-http://docs.scala-lang.org/resources/images/collections.png
-
-     Traversable ( foreach, head, tail, map, groupBy, partition, find )
-           ^
-           |
-         Iterable    ( iterator() over the elements, hasNext, next )
-     ^      ^      ^
-     |      |      |
-    Seq    Set     Map
+![Collections Hierarchy](http://docs.scala-lang.org/resources/images/collections.png)
 
  * Seq ( an ordered sequence of elements)
  * Set ( a set of un-ordered elements)
