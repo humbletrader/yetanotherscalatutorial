@@ -3,9 +3,9 @@
 ## collection hierarchy
 ![Collections Hierarchy](http://docs.scala-lang.org/resources/images/collections.png)
 
- * Seq ( an ordered sequence of elements)
- * Set ( a set of un-ordered elements)
- * Map ( a map of key-value pairs)
+ * Seq (an ordered sequence of elements)
+ * Set (a set of un-ordered elements)
+ * Map (a map of key-value pairs)
 
 ## Traversable (deprecated in scala 2.13)
 List is the default implementation returned by apply
@@ -14,25 +14,53 @@ val traversable = Traversable(1, 2, 3, 4, 5)
 ```
 
 ### important methods in traversables
+
+#### head / tail
 ```scala mdoc
 traversable.head 
 traversable.tail 
-
+```
+#### map / flatMap
+```scala mdoc
 traversable.map{ nbr => nbr * 2}
+traversable.flatMap (nbr => Traversable(nbr, nbr+1, nbr+2))
+```
 
+#### partition
+```scala mdoc
 //splits a traversable into two halves ( a tuple )
 traversable.partition(nbr => nbr % 2 == 0) 
+```
 
+#### find
+```scala mdoc
 //finds first
 traversable.find(nbr => nbr % 2 == 0)
+```
 
+#### group by
+```scala mdoc
 //creates a map with keys (0,1,2) 
 traversable.groupBy(nbr => nbr % 3) 
-
+```
+#### ++ (aka concat / append )
+```scala mdoc
 traversable.++(Traversable(6, 7, 8, 9)) 
-traversable ++ Traversable(6, 7, 8, 9)
-traversable.++:(Traversable(6, 7, 8, 9))  
+traversable ++ Traversable(6, 7, 8, 9)  
+```
 
+#### ++: ( prepend)
+Please note the right associative operation ++:
+```scala mdoc 
+traversable.++:(Traversable(6, 7, 8, 9))
+```
+which can also be written in a more readable manner
+```scala mdoc
+Traversable(6,7,8,9) ++: traversable
+```
+
+#### fold/reduce/scan
+```scala mdoc
 traversable.reduceLeft((acc, elem) => acc + elem)   
 
 //the same as reduce but starting with 10
