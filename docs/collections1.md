@@ -38,10 +38,13 @@ traversable.partition(nbr => nbr % 2 == 0)
 traversable.find(nbr => nbr % 2 == 0)
 ```
 
-#### group by
+#### group by / grouped
 ```scala mdoc
 //creates a map with keys (0,1,2) 
-traversable.groupBy(nbr => nbr % 3) 
+traversable.groupBy(nbr => nbr % 3)
+
+// grouped 
+traversable.grouped(3).mkString("[", ",", "]")
 ```
 #### ++ (aka concat / append )
 ```scala mdoc
@@ -59,7 +62,7 @@ which can also be written in a more readable manner
 Traversable(6,7,8,9) ++: traversable
 ```
 
-#### fold/reduce/scan
+#### fold/reduce/aggregate/scan
 ```scala mdoc
 traversable.reduceLeft((acc, elem) => acc + elem)   
 
@@ -72,7 +75,28 @@ traversable./:(10)((acc, elem) => acc + elem)
 //create a list of intermediary results (steps)
 traversable.scanLeft(10)((acc, elem) => acc + elem)  
 
+```
+
+#### aggregate
+
+```scala mdoc
+//aggregate
+// applies the first operation - seq - to the initial values in the list
+// applies the second operation - comb - to the results of the initial seq operation
+Traversable("alpha", "beta", "gamma", "delta").aggregate(0)(
+  (intAcc: Int, strVal: String) => intAcc + strVal.length, //<- this is seq-op
+  (intAcc:Int, intVal: Int) => intAcc + intVal             // <- this is comb-op
+)
+```
+
+#### flatten
+```scala mdoc
 Traversable(Traversable(1,2), Traversable(3, 4, 5)).flatten
+```
+
+#### slice
+```scala mdoc
+traversable.slice(from=2, until=4)
 ```
 
 ### important sub-traits 
