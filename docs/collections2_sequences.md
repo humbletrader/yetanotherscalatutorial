@@ -25,7 +25,7 @@ val alphabet = List("A", "B", "C", "D")
 alphabet(3) 
 ```
 
-```scala mdoc crash
+```scala mdoc:fail
 alphabet(3) = "E" 
 ```
 
@@ -114,12 +114,14 @@ new methods:
 
 
 #### array buffers - are backed by Lists and allow
-```scala mdoc 
+```scala mdoc
+import scala.collection.mutable.ListBuffer
 val lstBuf = ListBuffer(10,20,30)
 lstBuf += 40
 ```
 
 ```scala mdoc
+import scala.collection.mutable.ArrayBuffer
 val buf = ArrayBuffer(10,20,30)
 buf.insert(3, 100)
 
@@ -133,6 +135,8 @@ pop an element with pop, and peek at the top of the stack without removing it
 with top. All of these operations are constant time.
 
 ```scala mdoc
+import scala.collection.mutable.Stack
+
 val stack = Stack.empty.push(1).push(2).push(3)
 stack.top
 ```
