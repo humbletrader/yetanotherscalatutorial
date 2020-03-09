@@ -26,10 +26,15 @@ traversable.map{ nbr => nbr * 2}
 traversable.flatMap (nbr => Traversable(nbr, nbr+1, nbr+2))
 ```
 
-#### partition
+#### partition / span
+Partition will put all "true" elements in one list, and the others in the second list.
+Span will put all elements in one list until an element is "false" (in terms of the predicate). 
+From that point forward, it will put the elements in the second list.
+
 ```scala mdoc
 //splits a traversable into two halves ( a tuple )
-traversable.partition(nbr => nbr % 2 == 0) 
+traversable.partition(nbr => nbr % 2 == 0)
+traversable.span(nbr => nbr % 2 == 0) 
 ```
 
 #### find
