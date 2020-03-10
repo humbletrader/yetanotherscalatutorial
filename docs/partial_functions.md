@@ -32,9 +32,9 @@ List(1,2,3).collect(composedPartialFunction)
 
 using partial functions instead of normal ones results in compilation errors
 
-```scala mdoc:fail 
+```scala
 val partial : PartialFunction[Int, String] = {case 1 => "one"}
-List(1,2,3).map(partial) 
+List(1,2,3).map(partial) //compilation error 
 ```
 
 inline partial functions

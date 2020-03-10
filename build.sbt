@@ -7,7 +7,7 @@ ThisBuild / organizationName := "example"
 
 lazy val myproject = (project in file("."))
   .settings(
-    name := "MdocTest",
+    name := "yetanotherscalatutorial",
     libraryDependencies += scalaTest % Test
   )
 
