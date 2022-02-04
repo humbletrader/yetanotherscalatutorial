@@ -1,4 +1,5 @@
 # Infix, prefix, postfix operations
+
 Notation borrowed from mathematics:
 * infix operator notation :  3 + 4
 * prefix operator notation:  + 3 4
@@ -16,15 +17,15 @@ a better notation is the infix notation (supported by scala for methods with one
 ```
 
 This means that any method that takes one single parameter can be written using infix notation.
-```scala 
+```scala mdoc
 Vector(1,2,3).mkString(",")
 ```
 we can write in infix notation
-```scala
+```scala mdoc
 Vector(1,2,4) mkString ","
 ```
 for multiple params methods we can avoid the . but we should use the parentheses
-```scala 
+```scala mdoc
 Vector(1,2,3) mkString ("<", ",", ">")
 ```
 
@@ -34,7 +35,8 @@ instead of
 Vector(1,2,3).toList
 ```
 we can write
-```scala 
+```scala mdoc
+import scala.language.postfixOps //dropping dot from methods without parameters is deprecated
 Vector(1,2,3) toList //called also postfix notation
 ```
 
@@ -44,7 +46,8 @@ see the [recommendations](https://docs.scala-lang.org/style/method-invocation.ht
 If a method is used in operator notation, such as a * b, 
 the method is invoked on the left operand, as in a.*(b) — unless the method name ends in a colon.
 If the method name ends in a colon, the method is invoked on the right operand.
-Therefore, in 1 :: twoThree, the :: method is invoked on twoThree, passing in 1, like this: twoThree.::(1).
+Example :
+``` 1 :: twoThree ``` the ```::``` method is invoked on ```twoThree```, passing in ```1```, like this: ```twoThree.::(1)```.
 
 So, when we write
 ```scala mdoc

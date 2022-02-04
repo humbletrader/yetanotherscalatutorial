@@ -58,7 +58,7 @@ It makes sense if you think about it. If a method’s return type is Nothing, an
 
 ```scala
 val notin : Nothing  // this one cannot be instatiated
-//notin.isInstanceOf[String] // should have been true (if an instance could have been created)
+notin.isInstanceOf[String] // should have been true (if an instance could have been created)
 ```
 
 While Nothing is a subtype of everything, it does not inherit
@@ -75,11 +75,12 @@ val any: Any = 234
 
 ## AnyRef
 AnyRef is the supertype of any reference type. It's the closest to java.lang.Object
+```scala mdoc
+val anyRef: AnyRef = "abc"
+```
 
 ## AnyVal
 ```scala mdoc
-val anyRef: AnyRef = "abc"
-
 val anyVal: AnyVal = 1
 ```
 

@@ -1,29 +1,32 @@
-# COLLECTIONS - PART 1 (TRAITS)
+# COLLECTIONS - PART 1 (COLLECTION TRAITS)
+
+[scala official documentation](https://docs.scala-lang.org/overviews/collections-2.13/overview.html)
 
 ## collection hierarchy
-![Collections Hierarchy](http://docs.scala-lang.org/resources/images/collections.png)
+![Collections Hierarchy](https://docs.scala-lang.org/resources/images/tour/collections-diagram-213.svg)
 
  * Seq (an ordered sequence of elements)
  * Set (a set of un-ordered elements)
  * Map (a map of key-value pairs)
 
-## Traversable (deprecated in scala 2.13)
+## Iterable / Traversable (deprecated in scala 2.13)
 List is the default implementation returned by apply
 ```scala mdoc 
-val traversable = Traversable(1, 2, 3, 4, 5) 
+//val traversable = Traversable(1, 2, 3, 4, 5) 
+val iterable = Iterable(1,2,3)
 ```
 
 ### important methods in traversables
 
 #### head / tail
 ```scala mdoc
-traversable.head 
-traversable.tail 
+iterable.head 
+iterable.tail 
 ```
 #### map / flatMap
 ```scala mdoc
-traversable.map{ nbr => nbr * 2}
-traversable.flatMap (nbr => Traversable(nbr, nbr+1, nbr+2))
+iterable.map{ nbr => nbr * 2}
+iterable.flatMap (nbr => Iterable(nbr, nbr+1, nbr+2))
 ```
 
 #### partition / span
@@ -32,80 +35,56 @@ Span will put all elements in one list until an element is "false" (in terms of 
 From that point forward, it will put the elements in the second list.
 
 ```scala mdoc
-//splits a traversable into two halves ( a tuple )
-traversable.partition(nbr => nbr % 2 == 0)
-traversable.span(nbr => nbr % 2 == 0) 
+//splits a iterable into two halves ( a tuple )
+iterable.partition(nbr => nbr % 2 == 0)
+iterable.span(nbr => nbr % 2 == 0) 
 ```
 
 #### find
 ```scala mdoc
 //finds first
-traversable.find(nbr => nbr % 2 == 0)
+iterable.find(nbr => nbr % 2 == 0)
 ```
 
 #### group by / grouped
 ```scala mdoc
 //creates a map with keys (0,1,2) 
-traversable.groupBy(nbr => nbr % 3)
+iterable.groupBy(nbr => nbr % 3)
 
 // grouped 
-traversable.grouped(3).mkString("[", ",", "]")
+iterable.grouped(3).mkString("[", ",", "]")
 ```
 #### ++ (aka concat / append )
 ```scala mdoc
-traversable.++(Traversable(6, 7, 8, 9)) 
-traversable ++ Traversable(6, 7, 8, 9)  
-```
+iterable.++(Iterable(6, 7, 8, 9)) 
 
-#### ++: ( prepend)
-Please note the right associative operation ++:
-```scala mdoc 
-traversable.++:(Traversable(6, 7, 8, 9))
-```
-which can also be written in a more readable manner
-```scala mdoc
-Traversable(6,7,8,9) ++: traversable
+//same as above but using infix notation
+iterable ++ Iterable(6, 7, 8, 9)  
 ```
 
 #### fold/reduce/aggregate/scan
 ```scala mdoc
-traversable.reduceLeft((acc, elem) => acc + elem)   
+iterable.reduceLeft((acc, elem) => acc + elem)   
 
 //the same as reduce but starting with 10
-traversable.foldLeft(10)((acc, elem) => acc + elem) 
-
-//shortcut for fold left
-traversable./:(10)((acc, elem) => acc + elem)       
+iterable.foldLeft(10)((acc, elem) => acc + elem) 
 
 //create a list of intermediary results (steps)
-traversable.scanLeft(10)((acc, elem) => acc + elem)  
-
-```
-
-#### aggregate
-
-```scala mdoc
-//aggregate
-// applies the first operation - seq - to the initial values in the list
-// applies the second operation - comb - to the results of the initial seq operation
-Traversable("alpha", "beta", "gamma", "delta").aggregate(0)(
-  (intAcc: Int, strVal: String) => intAcc + strVal.length, //<- this is seq-op
-  (intAcc:Int, intVal: Int) => intAcc + intVal             // <- this is comb-op
-)
+iterable.scanLeft(10)((acc, elem) => acc + elem)  
 ```
 
 #### flatten
 ```scala mdoc
-Traversable(Traversable(1,2), Traversable(3, 4, 5)).flatten
+Iterable(Iterable(1,2), Iterable(3, 4, 5)).flatten
 ```
 
 #### slice
 ```scala mdoc
-traversable.slice(from=2, until=4)
+iterable.slice(from=2, until=4)
 ```
 
 ### important sub-traits 
- Iterable
+
 
 ### important concrete implementations 
  none
@@ -174,7 +153,7 @@ sequence :+ 9
 // same as above
 sequence.+:(9) 
 
-sequence union Seq(2, 4, 6, 8)
+sequence concat Seq(2, 4, 6, 8)  // union in scala 2.12 (deprecated now) 
 sequence intersect Seq(1, 2, 3, 4, 5)
 sequence.sorted
 sequence.reverse
@@ -208,7 +187,6 @@ myPets.contains("cat")
 myPets("cat") //returns true ( because Set extends Function1 A => Boolean)
 myPets + "bear"
 myPets ++ (Set("bear", "deer", "monkey"))
-myPets + ("bear", "deer") //adding the elements of a tuple
 ```
 
 ### important sub-traits: 
