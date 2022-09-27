@@ -33,7 +33,7 @@ val mixin = new First with Second
 ## Solving the overriding of methods (and The diamond problem): 
 ```scala mdoc
 trait Animal {
-      def legCount() : Int
+  def legCount() : Int
 }
 
 trait TwoLegged extends Animal {
