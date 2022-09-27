@@ -113,11 +113,12 @@ new methods:
  two notable implementations : ListBuffer and ArrayBuffer
 
 
-#### array buffers - are backed by Lists and allow
+#### list buffers - are backed by Lists and allow
 ```scala mdoc
 import scala.collection.mutable.ListBuffer
 val lstBuf = ListBuffer(10,20,30)
 lstBuf += 40
+0 +=: lstBuf
 ```
 
 ```scala mdoc

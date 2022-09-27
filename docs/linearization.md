@@ -53,7 +53,7 @@ test2.legCount()
 
 ## How does linearization work ? 
 * we start from right to left ( i.e. from the end)
-* Line(test) = Lin(FourLegged) > Lin(TwoLegged)
+* Lin (test) = Lin(FourLegged) > Lin(TwoLegged)
 * Lin (FourLegged) = FourLegged > Animal > AnyRef > Any
 * Lin (TwoLegged) = TwoLegged > Animal > AnyRef > Any
 * FourLegged > Animal > AnyRef > Any > TwoLegged > Animal > AnyRef > Any
