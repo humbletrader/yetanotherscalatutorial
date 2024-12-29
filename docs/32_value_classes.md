@@ -1,4 +1,4 @@
-# Value classes
+# Value classes ( replaced in scala 3 by Opaque types)
 
  * value classes are not stored in the heap
  * they offer better performance as compared to the reference types however there are limitations

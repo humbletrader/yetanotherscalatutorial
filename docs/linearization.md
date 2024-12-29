@@ -7,7 +7,7 @@ line of inheritance from any object to the higher ones in the hierarchy
 ### Typical inheritance
 ```scala mdoc 
 class Parent{
-    println("parent contructor")
+    println("parent constructor")
 }
 
 class Child extends Parent{
@@ -31,16 +31,20 @@ val mixin = new First with Second
 ```
 
 ## Solving the overriding of methods (and The diamond problem): 
+
 ```scala mdoc
 trait Animal {
+  println("animal constructor")
   def legCount() : Int
 }
 
 trait TwoLegged extends Animal {
+  println("two legged constructor")
   override def legCount(): Int = 2
 }
 
 trait FourLegged extends Animal {
+  println("four legged constructor")
   override def legCount(): Int = 4
 }
 
