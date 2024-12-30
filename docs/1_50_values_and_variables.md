@@ -11,6 +11,7 @@ var mutableOne : Int = 1
 ```
 
 ## immutable value definition having the type inferred from the right hand side
+
 ```scala mdoc:fail
 val two =  1+1
 two = 3
@@ -20,6 +21,7 @@ three = 4
 ```
 
 ## the third kind of variables is def
+
 ```scala mdoc:fail
 def four = 4
 four = 5

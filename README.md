@@ -4,9 +4,13 @@
  
  
  ## How to build this tutorial
- Just type into your sbt console
+ Just go to sbt console 
+```bash
+sbt
+```
+and then 
  ```bash
- docs/mdoc
+  docs/mdoc
 # or
  docs/mdoc --watch
 ```
