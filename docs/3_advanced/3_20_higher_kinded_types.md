@@ -16,7 +16,7 @@ These kinds of types (ie. type, type constructor) are known as kinds
 ## Discovering kinds in REPL
 Investigating these types of types in REPL can be done like: 
 
-```sbtshell
+```shell
 scala> :kind String
 String's kind is A
 
@@ -71,7 +71,7 @@ trait Container[M[_]]{
 ```
 
 ## Discovering HKT in REPL
-```sbtshell
+```shell
 scala> trait HigherKindType[F[_]]
 defined trait HigherKindType
 
@@ -122,8 +122,11 @@ tupelize(List(1), List(2))
 ```
 
 ## Utility
-Say we have some standard pattern for our data-structures where we want to be able to consistently apply an operation of the same shape. Functors are a nice example, the covariant functor allows us to take a box holding things of type A, and a function of A => B and get back a box holding things of type B.
-In Java, there is no way to specify that these things share a common interface, or that we simply want transformable boxes. We need to either make this static eg. Guava’s Lists and Iterables, or bespoke on the interface, eg: fugue’s Option or atlassian-util-concurrent’s Promise. There is simply no way to unify these methods on either some super interface or to specify that you have – or require – a “mappable/transformable” box.
+Say we have some standard pattern for our data-structures where we want to be able to consistently apply an operation of the same shape. 
+Functors are a nice example, the covariant functor allows us to take a box holding things of type A, and a function of A => B and get back a box holding things of type B.
+In Java, there is no way to specify that these things share a common interface, or that we simply want transformable boxes. 
+We need to either make this static eg. Guava’s Lists and Iterables, or bespoke on the interface, eg: fugue’s Option or atlassian-util-concurrent’s Promise. 
+There is simply no way to unify these methods on either some super interface or to specify that you have – or require – a “mappable/transformable” box.
 
 ## Can we define the same functionality with normal subtyping ?
 Yes we can, but is far less descriptive 
@@ -145,3 +148,28 @@ object Reducible{
 [Attlasian: Scala: types of a higher kind](https://www.atlassian.com/blog/archives/scala-types-of-a-higher-kind)
 [Kubuszok: Kinds of types in Scala, part 2](https://kubuszok.com/2018/kinds-of-types-in-scala-part-2/)
 [Twitter Scala Tutorial: Higher kinded types & ad hoc polymorphism](https://twitter.github.io/scala_school/advanced-types.html#higher)
+
+
+# Work in progress
+
+```scala mdoc
+trait MyContainer[M[_]]{
+ 
+  def magic[A](x: A) : M[A]
+ 
+  def magic2[A](m: M[A]) : A
+}
+
+implicit val myListContainer = new MyContainer[List]{
+  def magic[A](x: A) = List(x)
+  def magic2[A](m: List[A]) = m.head
+}
+
+def usageOfHKT[M[_]: MyContainer, A](x: A) = {
+  val c = implicitly[MyContainer[M]]
+  val container = c.magic(x)
+  c.magic2(container)
+}
+
+usageOfHKT(List(1))
+```

@@ -6,14 +6,14 @@
 
 A value class can wrap a value type
 
-```scala mdoc 
+```scala 
 class Currency(val amount: Float) extends AnyVal {
   def prettyPrint : String = s"$amount dollars"
 }
 ```
 But it can also wrap a non value (i.e a reference) type
 
-```scala mdoc
+```scala
 class PhoneNumber(val s: String) extends AnyVal {
   def digits : String = s.replaceAll("""\D""", "")
 }
