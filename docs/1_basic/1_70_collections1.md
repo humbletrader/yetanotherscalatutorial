@@ -7,10 +7,12 @@
  * Set (a set of un-ordered elements)
  * Map (a map of key-value pairs)
 
-## Traversable (deprecated in scala 2.13)
-List is the default implementation returned by apply
+## Iterable 
+* replaces Traversable (deprecated in scala 2.13)
+* List is the default implementation returned by apply
+
 ```scala mdoc 
-val traversable = Traversable(1, 2, 3, 4, 5) 
+val traversable = Iterable(1, 2, 3, 4, 5) 
 ```
 
 ### important methods in traversables
@@ -23,7 +25,7 @@ traversable.tail
 #### map / flatMap
 ```scala mdoc
 traversable.map{ nbr => nbr * 2}
-traversable.flatMap (nbr => Traversable(nbr, nbr+1, nbr+2))
+traversable.flatMap (nbr => Iterable(nbr, nbr+1, nbr+2))
 ```
 
 #### partition / span
@@ -51,20 +53,23 @@ traversable.groupBy(nbr => nbr % 3)
 // grouped 
 traversable.grouped(3).mkString("[", ",", "]")
 ```
-#### ++ (aka concat / append )
+#### append / concat / ++ operations
 ```scala mdoc
-traversable.++(Traversable(6, 7, 8, 9)) 
-traversable ++ Traversable(6, 7, 8, 9)  
+// append another iterable
+traversable.++(Iterable(6, 7, 8, 9)) 
+traversable ++ Iterable(6, 7, 8, 9) //infix notation
+
+// prepend another iterable
+traversable.++:(Iterable(0, 1, 2))
 ```
 
-#### ++: ( prepend)
-Please note the right associative operation ++:
+#### ++: (prepend)
+
 ```scala mdoc 
-traversable.++:(Traversable(6, 7, 8, 9))
-```
-which can also be written in a more readable manner
-```scala mdoc
-Traversable(6,7,8,9) ++: traversable
+traversable.++:(Iterable(6, 7, 8, 9)) //Please note the right associative operation ++:
+
+//which can also be written in a more readable manner
+Iterable(6,7,8,9) ++: traversable
 ```
 
 #### fold/reduce/aggregate/scan
@@ -74,7 +79,7 @@ traversable.reduceLeft((acc, elem) => acc + elem)
 //the same as reduce but starting with 10
 traversable.foldLeft(10)((acc, elem) => acc + elem) 
 
-//shortcut for fold left
+//deprecated shortcut for fold left
 traversable./:(10)((acc, elem) => acc + elem)       
 
 //create a list of intermediary results (steps)
@@ -88,7 +93,7 @@ traversable.scanLeft(10)((acc, elem) => acc + elem)
 //aggregate
 // applies the first operation - seq - to the initial values in the list
 // applies the second operation - comb - to the results of the initial seq operation
-Traversable("alpha", "beta", "gamma", "delta").aggregate(0)(
+Iterable("alpha", "beta", "gamma", "delta").aggregate(0)(
   (intAcc: Int, strVal: String) => intAcc + strVal.length, //<- this is seq-op
   (intAcc:Int, intVal: Int) => intAcc + intVal             // <- this is comb-op
 )
@@ -96,7 +101,7 @@ Traversable("alpha", "beta", "gamma", "delta").aggregate(0)(
 
 #### flatten
 ```scala mdoc
-Traversable(Traversable(1,2), Traversable(3, 4, 5)).flatten
+Iterable(Iterable(1,2), Iterable(3, 4, 5)).flatten
 ```
 
 #### slice
@@ -104,26 +109,13 @@ Traversable(Traversable(1,2), Traversable(3, 4, 5)).flatten
 traversable.slice(from=2, until=4)
 ```
 
-### important sub-traits 
- Iterable
-
-### important concrete implementations 
- none
-
-## Iterable - Iterator
-Iterable is a factory of Iterators
-
-List is the default implementation returned by Iterable.apply
-```scala mdoc 
-val iterableTest = Iterable(1, 2, 3, 4, 5, 6, 7)         
-```
-
 the most important method in the iterable trait
 ```scala mdoc
+val iterableTest = Iterable(1,2,3,4,5,6,7,8)
 val iterator = iterableTest.iterator
 ```
 
-Grouping
+#### Grouping
 ```scala mdoc
 val groupsOfThree = iterableTest.grouped(3)   //returns an iterator
 groupsOfThree.next() 
@@ -132,14 +124,14 @@ groupsOfThree.next()
 groupsOfThree.hasNext 
 ```
 
-Sliding windows
+#### Sliding windows
 ```scala mdoc
 val slidingWindowOfThree = iterableTest.sliding(3) 
 slidingWindowOfThree.next() 
 slidingWindowOfThree.next() 
 ```
 
-Zipping 
+#### Zipping 
 zipping is the equivalent of joining two sets by their element's index
 ```scala mdoc
 val anotherIterable = Iterable('a', 'b', 'c', 'd')
@@ -174,7 +166,7 @@ sequence :+ 9
 // same as above
 sequence.+:(9) 
 
-sequence union Seq(2, 4, 6, 8)
+sequence concat Seq(2, 4, 6, 8) //there's also union but it's been deprecated
 sequence intersect Seq(1, 2, 3, 4, 5)
 sequence.sorted
 sequence.reverse
@@ -207,7 +199,7 @@ val myPets = Set("cat", "dog", "mouse")
 myPets.contains("cat") 
 myPets("cat") //returns true ( because Set extends Function1 A => Boolean)
 myPets + "bear"
-myPets ++ (Set("bear", "deer", "monkey"))
+myPets ++ Set("bear", "deer", "monkey")
 myPets + ("bear", "deer") //adding the elements of a tuple
 ```
 
