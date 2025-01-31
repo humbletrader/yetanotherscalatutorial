@@ -1,7 +1,7 @@
 # Linearization
 
 Linearization is an algorithm used by scala to solve the multiple inheritance issue. 
-As opposed to java where a compile time error is thrown, in scala the linearization ensures ons single
+As opposed to java where a compile time error is thrown, in scala the linearization ensures one single
 line of inheritance from any object to the higher ones in the hierarchy
 
 ### Typical inheritance
