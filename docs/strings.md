@@ -17,7 +17,7 @@ val evaluated = s"one plus one equals ${1+1}"
 
 //method calls 
 case class Person(firstName: String, lastName: String, age: Int)
-val person = Person("Dragos", "Balan", 43)
+val person = Person("Dragos", "B", 43)
 val personDescription = s"${person.firstName} is a ${person.age} year old scala developer"
 ```
 

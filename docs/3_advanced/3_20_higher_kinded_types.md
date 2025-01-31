@@ -98,12 +98,12 @@ HigherKindType | (* -> *) -> * | type constructor of type constructor
 Usually the implementation of such higher kinded type is done with implicits
 
 ```scala mdoc
-implicit val listContainer = new Container[List]{
+implicit val listContainer : Container[List] = new Container[List]{
     def put[A](x: A) = List(x)
     def get[A](m: List[A]) = m.head
 }
 
-implicit val optionContainer = new Container[Some]{
+implicit val optionContainer : Container[Option] = new Container[Some]{
     def put[A](x: A) = Some(x)
     def get[A](m: Some[A]) = m.get
 }
