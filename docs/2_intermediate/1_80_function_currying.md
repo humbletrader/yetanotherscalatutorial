@@ -46,7 +46,6 @@ def useBothFunctions(userId: Int, prefix: String) : String = {
 useBothFunctions(1, "Mr")
 useBothFunctions(1, "Sir")
 
-
 //a better approach would be to curry
 def curriedVersion(userId: Int) : String => String = { 
   val expensiveResult = retrieveUser(userId)

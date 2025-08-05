@@ -1,3 +1,8 @@
+# Good tutorial on variance
+* https://rossabaker.com/presentations/understanding-scala-variance/
+* https://docs.scala-lang.org/tour/variances.html
+
+
 # What is variance ?
 When mixing OO with polymorphism, the question that arises is: how parameterized types behave under subtyping ?
 
